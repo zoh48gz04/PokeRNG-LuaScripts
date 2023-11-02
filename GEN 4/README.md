@@ -6,24 +6,19 @@
 * Roamer Pokémon Info
 * IDs Info
 * Pokémon Info (Party/Box)
-* DPPt Feebas Tile Checker / HGSS Voltorb Flip Reveal
-
-Source repo &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%204)
-
-* DPPt Safari Zone Pokémon Checker / HGSS Safari Zone Tiles Checker
 * DPPtHGSS LCRNG Advance Bot (named Chatot Chicanery)
-
-Source repo &amp; scripts by [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts)
-
+* DPPt Feebas Tile Checker / HGSS Voltorb Flip Reveal
+* DPPt Safari Zone Pokémon Checker / HGSS Safari Zone Tiles Checker
 * Pokémon Info and Stats display for Speed-runners (commonly referred to as the 'Rainbow' lua)
 
-Source repo &amp; scripts by [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
+The main scripts for each game provided in the respective emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
+* Edited versions of these scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96. The original ones are still included in a folder named `Real96 OG`. 
+* These pictures show the differences in the layouts for [DeSmuMe](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%204/DeSmuMe/G4DesmumeLayout.png) &amp; [Bizhawk](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%204/BizHawk/G4BizhawkLayout.png)
+* Several 'Misc Scripts' are also included in the folder with the same name. An alternative (older) Pokémon Stats view script is also included (launched by opening the non-extension file). These scripts are for DeSmuMe only
 
-The scripts for each game provided in the main emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
+## IMPORTANT!
 * DeSmuMe Dev+ version required (0.9.11 x32 recommended)
 * Bizhawk 2.9 or higher required (earlier versions not supported)
-* Several 'Misc Scripts' are also included in the folder with the same name. An alternative (older) Pokémon Stats view script is also included (launched by opening the non-extension file). These scripts are for DeSmuMe only
-* Also provided are alternative layout versions for the RNG scripts. These edited scripts are inside the `SM Edits` folders and were made by SexyMalasada. These pictures show the differences in the layouts for [DeSmuMe](https://github.com/SexyMalasada/PokeRNG-Luas/blob/main/GEN%204/DeSmuMe/SM%20Edits/G4DesmumeLayout.png) &amp; [Bizhawk](https://github.com/SexyMalasada/PokeRNG-Luas/blob/main/GEN%204/BizHawk/SM%20Edits/G4BizhawkLayout.png)
 
 ## DPPtHGSS LCRNG Advance Bot (Chatot Chicanery) Instructions
 This script consists of a simple Bot that auto-advances a predetermined number of LCRNG (also called PIDRNG) frames.
@@ -37,3 +32,6 @@ To start the Bot properly, open the Summary view of the Chatot in the LAST slot 
 ## Notes for DeSmuMe scripts
 * Press the button `Restart` in the lua window every time you need to restart the game
 * Pause the game every time you need to save or load a state and hold `Shift` + `F(n)`/`F(n)` (ex. `Shift` + `F1` to save a state in slot 1) for some seconds, until you see the message `Saved State (n)`/`Loaded State (n)` appearing on the screen for less than a second
+
+### Credits
+Source repos &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%204), [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts) &amp; [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)

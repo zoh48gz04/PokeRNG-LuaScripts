@@ -62,18 +62,12 @@ Source repos [DevonStudios](https://github.com/DevonStudios/LuaScripts/tree/main
 * Roamer Pokémon Info
 * IDs Info
 * Pokémon Info (Party/Box)
-* DPPt Feebas Tile Checker / HGSS Voltorb Flip Reveal
-
-Source repo &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%204)
-
-* DPPt Safari Zone Pokémon Checker / HGSS Safari Zone Tiles Checker
 * DPPtHGSS LCRNG Advance Bot (named Chatot Chicanery)
-
-Source repo &amp; scripts by [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts)
-
+* DPPt Feebas Tile Checker / HGSS Voltorb Flip Reveal
+* DPPt Safari Zone Pokémon Checker / HGSS Safari Zone Tiles Checker
 * Pokémon Info and Stats display for Speed-runners (commonly referred to as the 'Rainbow' lua)
 
-Source repo &amp; scripts by [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
+Source repos &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%204), [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts) &amp; [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
 
 ## Gen 5
 ### BW/B2W2
@@ -84,16 +78,10 @@ Source repo &amp; scripts by [Martmists-GH](https://github.com/Martmists-GH/Poke
 * C-Gear Pokémon & RNG Info
 * IDs Info
 * Pokémon Info (Party/Box)
-
-Source repo &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%205)
-
 * BWB2W2 LCRNG Advance Bot (named Chatot Chicanery)
-
-Source repo &amp; scripts by [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts)
-
 * Pokémon Info and Stats display for Speed-runners (commonly referred to as the 'Rainbow' lua)
 
-Source repo &amp; scripts by [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
+Source repos &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%205), [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts) &amp; [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
 
 ## Credits:
 * [Kaphotics](https://github.com/kwsch) for the research and for his [gen3](https://projectpokemon.org/home/forums/topic/15187-gen-3-lua-scripts/) and [gen5](https://projectpokemon.org/home/forums/topic/15140-pokemon-bw-lua-scripts/) scripts

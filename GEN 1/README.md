@@ -7,8 +7,7 @@
 * TID Bot
 * Party Pokémon Info checking
 
-Source repo &amp; unified script by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%201). Original code &amp; scripts by [zep715](https://github.com/zep715/rbylua)
-
+## IMPORTANT
 This script is an all-in-one version of zep715's original ones, created by Real96
 * VBA 23.6 RR version required (LRC4 works too)
 * Bizhawk 2.8 required (2.9 not supported yet)
@@ -55,3 +54,6 @@ The final screen is: Place the cursor over 'New Game' at the main screen and run
 This script (not a bot) will show on-screen what nature your party Pokémon will have (and shininess) when transferred through PokéTransporter
 
 Nature is based on experience points, so gaining experience points will change nature. You can find a detailed table of what experience values translate to each natures [here](https://www.pokemonrng.com/misc-3ds-transporter-nature-tables)
+
+### Credits
+Source repo &amp; unified script by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%201). Original code &amp; scripts by [zep715](https://github.com/zep715/rbylua)

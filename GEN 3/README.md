@@ -11,20 +11,22 @@
 * IDs Info
 * Other Misc RSE (Pokérus RNG / Lottery RNG / Mirage Island RNG / Feebas Tile Checker)
 
-The scripts provided here for each game have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
-* VBA 23.6 RR version required (LRC4 works too)
-* Bizhawk 2.8 required (2.9 not supported yet)
+The main scripts for each game provided in the respective emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
 * Emerald has 2 versions whose difference is solely a script with and one without a 'Painting Timer' - which is used for Painting Initial Seed re-seed RNG
 * Several Misc RSE RNG scripts are also included in the folder 'Side'. These are VBA only
 
-### FRLG Initial Seed Bot Instructions
+## IMPORTANT!
+* VBA 23.6 RR version required (LRC4 works too)
+* Bizhawk 2.8 required (2.9 not supported yet)
+
+## FRLG Initial Seed Bot Instructions
 Due to the rapidly advancing method of generation of Initial Seeds in these games, a Bot that cycles for a desired Initial Seed is provided
 
 To use it start by opening the script and editing it with your desired Initial Seeds at ``local botTargetInitSeeds =`` in hexadecimal values (preceded by 0x)
 
 After that open your game, load the script and navigate to the Initial Seed Mode. Once you're at the 'Press Start' screen follow the on-screen script instructions to start the bot
 
-### FRLG/E TID Bot Instructions
+## FRLG/E TID Bot Instructions
 Due to the rapidly advancing method of generation of TID in these games, a Bot that cycles for a desired Trainer ID is provided
 
 To use it start by opening the script and editing it with your desired Initial Seeds at ``local botTargetTIDs =`` in decimal values
@@ -48,5 +50,5 @@ After that open your game, load the script and navigate to the TID Bot Mode. Mak
 The scripts provided here for each game showcase the most varied information that you require for each type of RNG.
 * Dolphin Lua-Core version is required
 
-
+### Credits
 Source repos [DevonStudios](https://github.com/DevonStudios/LuaScripts/tree/main/Gen%203) &amp; [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%203). Scripts by Real96

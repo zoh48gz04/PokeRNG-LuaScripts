@@ -13,9 +13,7 @@
 * Wild Pokémon Viewer
 * Roamer Tracker Viewer
 
-Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/master)
-
-These scripts were created based on zep715's original code, by wwwwwwzx
+## IMPORTANT!
 * VBA 23.6 RR version required (LRC4 works too)
 * No Bizhawk versions are provided - these scripts are VBA only!
 
@@ -96,3 +94,9 @@ These scripts are not bots but instead show on-screen information depending on w
 
 If using the Roamer Tracker script, its location will be displayed as a number which corresponds to these locations:
 ![](Viewer/Location%20Code.png)
+
+Nature is based on experience points, so gaining experience points will change nature. You can find a detailed table of what experience values translate to each natures [here](https://www.pokemonrng.com/misc-3ds-transporter-nature-tables)
+
+### Credits
+These scripts were created based on zep715's original code, by wwwwwwzx
+Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/master)
