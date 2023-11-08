@@ -409,6 +409,10 @@ elseif gameVersionCode == 0x4B5049 then
  gameVersion = "HeartGold"
 end
 
+function getGameAddrOffset(offset)
+ return gameVersion == "Pearl" and offset or 0
+end
+
 local mtIndexAddr, pidPointerAddr, delayAddr, currentSeedAddr, mtSeedAddr, trainerIDsPointerAddr, tempCurrentSeedDuringBattleAddr
 local koreanOffset = 0
 
