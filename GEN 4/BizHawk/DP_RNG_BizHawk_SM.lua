@@ -414,7 +414,7 @@ local koreanOffset = 0
 
 if gameLanguageCode == 0x44 then  -- Check game language and set addresses
  gameLanguage = "GER"
- mtIndexAddr = 0x02105CE8
+ mtIndexAddr = 0x02105CE8 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x021070EC
  delayAddr = 0x021C4A24
  currentSeedAddr = 0x021C4E88
@@ -423,7 +423,7 @@ if gameLanguageCode == 0x44 then  -- Check game language and set addresses
  tempCurrentSeedDuringBattleAddr = 0x027E3A3C
 elseif gameLanguageCode == 0x45 then
  gameLanguage = "EUR/USA"
- mtIndexAddr = 0x02105BA8
+ mtIndexAddr = 0x02105BA8 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x02106FAC
  delayAddr = 0x021C48E4
  currentSeedAddr = 0x021C4D48
@@ -432,7 +432,7 @@ elseif gameLanguageCode == 0x45 then
  tempCurrentSeedDuringBattleAddr = 0x027E3A3C
 elseif gameLanguageCode == 0x46 then
  gameLanguage = "FRE"
- mtIndexAddr = 0x02105D28
+ mtIndexAddr = 0x02105D28 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x0210712C
  delayAddr = 0x021C4A64
  currentSeedAddr = 0x021C4EC8
@@ -441,7 +441,7 @@ elseif gameLanguageCode == 0x46 then
  tempCurrentSeedDuringBattleAddr = 0x027E3A3C
 elseif gameLanguageCode == 0x49 then
  gameLanguage = "ITA"
- mtIndexAddr = 0x02105C88
+ mtIndexAddr = 0x02105C88 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x0210708C
  delayAddr = 0x021C49C4
  currentSeedAddr = 0x021C4E28
@@ -450,7 +450,7 @@ elseif gameLanguageCode == 0x49 then
  tempCurrentSeedDuringBattleAddr = 0x027E3A3C
 elseif gameLanguageCode == 0x4A then
  gameLanguage = "JPN"
- mtIndexAddr = 0x021075A4
+ mtIndexAddr = 0x021075A4 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x02108944
  delayAddr = 0x021C6284
  currentSeedAddr = 0x021C66E8
@@ -460,7 +460,7 @@ elseif gameLanguageCode == 0x4A then
 elseif gameLanguageCode == 0x4B then
  gameLanguage = "KOR"
  koreanOffset = 0x44
- mtIndexAddr = 0x021030A8
+ mtIndexAddr = 0x021030A8 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x021045AC
  delayAddr = 0x021C1EE4
  currentSeedAddr = 0x021C2348
@@ -469,7 +469,7 @@ elseif gameLanguageCode == 0x4B then
  tempCurrentSeedDuringBattleAddr = 0x027E363C
 elseif gameLanguageCode == 0x53 then
  gameLanguage = "SPA"
- mtIndexAddr = 0x02105D48
+ mtIndexAddr = 0x02105D48 + getGameAddrOffset(0x8)
  pidPointerAddr = 0x0210714C
  delayAddr = 0x021C4A84
  currentSeedAddr = 0x021C4EE8
@@ -1028,35 +1028,35 @@ function getRoamerInfo(roamerAddr)
   local roamerStatusIndex = read8Bit(roamerAddr + 0x11)
   local roamerStatus = statusConditionNamesList[1]  -- No altered status condition by default
   local roamerNatureIndex = (roamerPID % 25) + 1
-
   local playerMapIndexAddr = read32Bit(trainerIDsPointerAddr) + 0x144C
   local playerMapIndex = read16Bit(playerMapIndexAddr)
 
-  if roamerStatusIndex > 0 and roamerStatusIndex < 0x8 then  -- Check altered status condition
+  if roamerStatusIndex > 0 and roamerStatusIndex < 0x8 then  -- Sleeping status condition
    roamerStatus = statusConditionNamesList[2]
-  elseif roamerStatusIndex == 0x8 then
+  elseif roamerStatusIndex == 0x8 then  -- Poisoned status condition
    roamerStatus = statusConditionNamesList[3]
-  elseif roamerStatusIndex == 0x10 then
+  elseif roamerStatusIndex == 0x10 then  -- Burned status condition
    roamerStatus = statusConditionNamesList[4]
-  elseif roamerStatusIndex == 0x20 then
+  elseif roamerStatusIndex == 0x20 then  -- Freezed status condition
    roamerStatus = statusConditionNamesList[5]
-  elseif roamerStatusIndex == 0x40 then
+  elseif roamerStatusIndex == 0x40 then  -- Paralyzed status condition
    roamerStatus = statusConditionNamesList[6]
-  elseif roamerStatusIndex == 0x80 then
+  elseif roamerStatusIndex == 0x80 then  -- Badly poisoned status condition
    roamerStatus = statusConditionNamesList[7]
   end
 
-  return isRoamerActive, roamerPID, (roamerSpeciesIndex > 493 or roamerSpeciesIndex < 1) and 1 or roamerSpeciesIndex, roamerShinyType,
-         roamerShinyTypeTextColor, (roamerNatureIndex > 25 or roamerNatureIndex == nil) and 1 or roamerNatureIndex, roamerIVsValue, roamerLevel, roamerHP,
-         roamerStatus, roamerMapIndex, playerMapIndex
+  return isRoamerActive, roamerMapIndex, roamerIVsValue, roamerPID, roamerShinyTypeTextColor, roamerShinyType,
+         (roamerSpeciesIndex > 493 or roamerSpeciesIndex < 1) and 1 or roamerSpeciesIndex, roamerHP, roamerLevel, 
+         roamerStatus, (roamerNatureIndex > 25 or roamerNatureIndex == nil) and 1 or roamerNatureIndex,
+         playerMapIndex
  end
 
  return nil
 end
 
 function showRoamerInfo(roamerAddr)
- local isRoamerActive, roamerPID, roamerSpeciesIndex, roamerShinyType, roamerShinyTypeTextColor, roamerNatureIndex,
-       roamerIVsValue, roamerLevel, roamerHP, roamerStatus, roamerMapIndex, playerMapIndex = getRoamerInfo(roamerAddr)
+ local isRoamerActive, roamerMapIndex, roamerIVsValue, roamerPID, roamerShinyTypeTextColor, roamerShinyType,
+       roamerSpeciesIndex, roamerHP, roamerLevel, roamerStatus, roamerNatureIndex, playerMapIndex = getRoamerInfo(roamerAddr)
 
  if isRoamerActive then
   gui.text(5, 404, "Active Roamer? Yes")

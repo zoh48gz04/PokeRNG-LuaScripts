@@ -29,6 +29,8 @@ After the above is done load your game and RNG script, as well as the Chatot Chi
 
 To start the Bot properly, open the Summary view of the Chatot in the LAST slot of your Party. Press 0 to start the Bot. The display cyan text should list the number of advancements done and will say when it has finished! You can cross check this with your RNG script as well
 
+An alternative version for Bizhawk without the screen change function, where the text is fixed to top screen is included, as this function has proved a bit buggy on this emulator
+
 ## Notes for DeSmuMe scripts
 * Press the button `Restart` in the lua window every time you need to restart the game
 * Pause the game every time you need to save or load a state and hold `Shift` + `F(n)`/`F(n)` (ex. `Shift` + `F1` to save a state in slot 1) for some seconds, until you see the message `Saved State (n)`/`Loaded State (n)` appearing on the screen for less than a second
