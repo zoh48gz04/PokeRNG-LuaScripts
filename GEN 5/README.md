@@ -19,7 +19,7 @@ The main scripts for each game provided in the respective emulator folders have 
 * DeSmuMe Dev+ version required (0.9.11 x32 recommended)
 * Bizhawk 2.9 or higher required (earlier versions not supported)
 
-## DPPtHGSS LCRNG Advance Bot (Chatot Chicanery) Instructions
+## BWB2W2 LCRNG Advance Bot (Chatot Chicanery) Instructions
 This script consists of a simple Bot that auto-advances a predetermined number of LCRNG (also called PIDRNG) frames.
 
 To use this bot start by opening the script and editing the number of advances you want it to do in ``local maxAdvances =``. It's best to be conservative and select a value a few dozen frames before your target one.
