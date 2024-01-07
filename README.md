@@ -1,7 +1,8 @@
 # PokeRNG-Luas
 Repository of essential Lua scripts for Pokémon RNG &amp; Botting from Generations 1 through 5 from several authors.
 Meant to compile all the required scripts across these generations, as well as custom edits and original ones into a single repo for PS! Wifi Labs users.
-## Gen 1
+Click each generation header for further descriptions and instructions on how to use each script.
+## [Gen 1](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%201)
 ### RBG/Y
 * Gift Bot
 * Static Bot
