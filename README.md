@@ -30,7 +30,7 @@ Source repo &amp; unified script by [Real96](https://github.com/Real96/PokeLua/t
 
 Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/master)
 
-## [Gen 3]((https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%203)
+## [Gen 3](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%203)
 ### RS/FRLG/E
 * RNG Info
 * Wild/Static/Gift Info
@@ -55,7 +55,7 @@ Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/
 
 Source repos [DevonStudios](https://github.com/DevonStudios/LuaScripts/tree/main/Gen%203) &amp; [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%203). Scripts by Real96
 
-## [Gen 4]((https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%204)
+## [Gen 4](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%204)
 ### DP/Pt/HGSS
 * RNG Info
 * Wild/Static/Gift Info
