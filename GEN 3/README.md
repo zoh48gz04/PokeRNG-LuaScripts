@@ -18,6 +18,7 @@ The main scripts for each game provided in the respective emulator folders have 
 ## IMPORTANT!
 * VBA 23.6 RR version required (LRC4 works too)
 * Bizhawk 2.8 required (2.9 not supported yet)
+* mGBA 0.10.3 (latest) is required
 
 ## FRLG Initial Seed Bot Instructions
 Due to the rapidly advancing method of generation of Initial Seeds in these games, a Bot that cycles for a desired Initial Seed is provided
