@@ -47,14 +47,14 @@ local prevKey = {}
 local leftArrowColor
 local rightArrowColor
 
-local savePath = "D:\\Desktop\\VBA RNG v23.5\\battery\\Pokemon - Ruby Version (USA, Europe) (Rev 2).sav"
-local targetSeed = 0x4A4
+local savePath = "C:\\Users\\username\\Desktop\\VBA\\battery\\Pokemon Ruby.sav"
+local targetSeed = 0xCF37
 local targetHour = 0
-local targetMinute = 9
-local targetSecond = 55
-local targetSixtiethSecond = 3
-local delaySecond = 1
-local delaySixtiethSecond = 46
+local targetMinute = 15
+local targetSecond = 45
+local targetSixtiethSecond = 30
+local delaySecond = 0
+local delaySixtiethSecond = 38
 local baseHour = targetHour
 local baseMinute = targetMinute
 local baseSecond = targetSecond
@@ -133,18 +133,11 @@ function isSeedGenerated()
  return mdword(0x0E000FF8) ~= 0
 end
 
-function getSaveBlockSeedAddr()
- local startingCheckSeed = 0x0E0022F6
- local addOffset = 0x1000
+function getFirstSegmentSeed()
+ local startingCheckBlocksAddr = 0x0E000FF4
+ local checkSumSegment = mbyte(startingCheckBlocksAddr)
 
- while mdword(startingCheckSeed) ~= 0x1000 and addOffset <= 0xF000 do
-  startingCheckSeed = startingCheckSeed + addOffset
-  addOffset = addOffset + 0x1000
- end
-
- local saveBlockSeedAddr = startingCheckSeed - 0x1300
-
- return saveBlockSeedAddr
+ return mword(startingCheckBlocksAddr + ((14 - checkSumSegment) * 0x1000) + 0x2)
 end
 
 function getAllChecksums()
@@ -217,8 +210,7 @@ while warning == "" do
  gui.text(1, 85, string.format("Base Save Time: %02d:%02d:%02d:%02d", baseHour, baseMinute, baseSecond, baseSixtiethSecond))
 
  if isSeedGenerated() then
-  currSaveBlockSeedAddr = getSaveBlockSeedAddr()
-  firstSegmentSeed = mword(currSaveBlockSeedAddr)
+  firstSegmentSeed = getFirstSegmentSeed()
 
   if mode[index] == "10th Anniv/Aura Mew" then
    checkSums = getAllChecksums()

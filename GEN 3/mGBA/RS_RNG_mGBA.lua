@@ -1,5 +1,3 @@
-local botTargetTIDs = {}  -- Write the bot target TIDs you prefer inside the brackets (e.g. {0, 1, 1337, 8453, 8411, 11233, 11111, 22222, 33333, 12345})
-
 local JUMP_DATA = {
  {0x41C64E6D, 0x6073}, {0xC2A29A69, 0xE97E7B6A}, {0xEE067F11, 0x31B0DDE4}, {0xCFDDDF21, 0x67DBB608},
  {0x5F748241, 0xCBA72510}, {0x8B2E1481, 0x1D29AE20}, {0x76006901, 0xBA84EC40}, {0x1711D201, 0x79F01880},
@@ -272,26 +270,20 @@ local catchRatesList = {
  45, 255, 60, 60, 25, 225, 45, 45, 45, 3, 3, 3, 3, 3, 3, 3, 3, 5, 5, 3, 3, 3}
 
 local locationNamesList = {
- "Pallet Town", "Viridian City", "Pewter City", "Cerulean City", "Lavender Town", "Vermilion City",
- "Celadon City", "Fuchsia City", "Cinnabar Island", "Indigo Plateau Exterior", "Saffron City",
- "Saffron City Connection", "One Island", "Two Island", "Three Island", "Four Island", "Five Island",
- "Seven Island", "Six Island", "Route 1", "Route 2", "Route 3", "Route 4", "Route 5", "Route 6", "Route 7",
- "Route 8", "Route 9", "Route 10", "Route 11", "Route 12", "Route 13", "Route 14", "Route 15", "Route 16",
- "Route 17", "Route 18", "Route 19", "Route 20", "Route 21 North", "Route 21 South", "Route 22", "Route 23",
- "Route 24", "Route 25", "One Island Kindle Road", "One Island Treasure Beach", "Two Island Cape Brink",
- "Three Island Bond Bridge", "Three Island Port", "Prototype Sevii Isle 6", "Prototype Sevii Isle 7",
- "Prototype Sevii Isle 8", "Prototype Sevii Isle 9", "Five Island Resort Gorgeous",
- "Five Island Water Labyrinth", "Five Island Meadow", "Five Island Memorial Pillar",
- "Six Island Outcast Island", "Six Island Green Path", "Six Island Water Path", "Six Island Ruin Valley",
- "Seven Island Trainer Tower", "Seven Island Sevault Canyon Entrance", "Seven Island Sevault Canyon",
- "Seven Island Tanoby Ruins"}
+ "Petalburg City", "Slateport City", "Mauville City", "Rustboro City", "Fortree City", "Lilycove City",
+ "Mossdeep City", "Sootopolis City", "Ever Grande City", "Littleroot Town", "Oldale Town", "Dewford Town",
+ "Lavaridge Town", "Fallarbor Town", "Verdanturf Town", "Pacifidlog Town", "Route 101", "Route 102",
+ "Route 103", "Route 104", "Route 105", "Route 106", "Route 107", "Route 108", "Route 109", "Route 110",
+ "Route 111", "Route 112", "Route 113", "Route 114", "Route 115", "Route 116", "Route 117", "Route 118",
+ "Route 119", "Route 120", "Route 121", "Route 122", "Route 123", "Route 124", "Route 125", "Route 126",
+ "Route 127", "Route 128", "Route 129", "Route 130", "Route 131", "Route 132", "Route 133", "Route 134",
+ "Underwater 1", "Underwater 2", "Underwater 3", "Underwater 4"}
 
 local statusConditionNamesList = {"None", "SLP", "PSN", "BRN", "FRZ", "PAR", "PSN"}
 
-local pokemonStatsScreen2Addr, pokemonStatsScreenAddr, pokemonBattleStatsScreenAddr, speciesDexIndexAddr, wildTypeAddr, partySlotsCounterAddr,
-      enemyAddr, partyAddr, safariCatchFactorPointerAddr, playerWalkRunStateAddr, wildEncounterDataAddr, boxSelectedSlotIndexAddr, eggLowPIDPointerAddr,
-      safariZoneStepsCounterAddr, selectedItemAddr, partySelectedSlotIndexAddr, roamerMapGroupAndNumAddr, battleTurnsCounterAddr, currentSeedAddr,
-      saveBlock1PointerAddr, saveBlock2PointerAddr, currBoxIndexPointerAddr
+local speciesDexIndexAddr, wildTypeAddr, saveBlock2Addr, saveBlock1Addr, eggLowPIDAddr, mapTypeAddr, currBoxIndexAddr, boxSelectedSlotIndexAddr,
+      selectedItemAddr, safariZoneStepsCounterAddr, roamerMapGroupAndNumAddr, timerAddr, battleTurnsCounterAddr, partySlotsCounterAddr,
+      partyAddr, enemyAddr, currentSeedAddr
 
 local GameInfo, CaptureInfo, RoamerInfo, BreedingInfo, PandoraInfo, PokemonInfo
 
@@ -306,8 +298,6 @@ function initializeBuffers()
  RoamerInfo:setSize(100, 100)
  PandoraInfo = console:createBuffer("Pandora")
  PandoraInfo:setSize(100, 100)
- TIDBotInfo = console:createBuffer("TID Bot")
- TIDBotInfo:setSize(100, 100)
  PokemonInfo = console:createBuffer("Pokemon Info")
  PokemonInfo:setSize(100, 100)
 end
@@ -318,7 +308,6 @@ local wrongGameVersion
 function setGameVersion()
  local gameVersionCode = emu:read8(0x80000AE)
  local gameLanguageCode = emu:read8(0x80000AF)
- local gameRev = emu:read8(0x80000BD) == 0x62
 
  if gameVersionCode == 0x45 then  -- Check game version
   gameVersion = "Emerald"
@@ -334,76 +323,61 @@ function setGameVersion()
 
  if gameLanguageCode == 0x45 then  -- Check game language and set addresses
   gameLanguage = "USA"
-  pokemonStatsScreen2Addr = 0x20032A0
-  pokemonStatsScreenAddr = 0x2006498
-  pokemonBattleStatsScreenAddr = 0x20119C4
-  speciesDexIndexAddr = 0x20235C8
-  wildTypeAddr = 0x2023C5D
-  partySlotsCounterAddr = 0x2024029
-  enemyAddr = 0x202402C
-  partyAddr = 0x2024284
-  safariCatchFactorPointerAddr = 0x202449C
-  playerWalkRunStateAddr = 0x2037078
-  wildEncounterDataAddr = 0x20386D0
-  boxSelectedSlotIndexAddr = 0x2039821
-  eggLowPIDPointerAddr = 0x2039894
-  safariZoneStepsCounterAddr = 0x2039996
-  selectedItemAddr = 0x203AD30
-  partySelectedSlotIndexAddr = 0x203B0A9
-  roamerMapGroupAndNumAddr = 0x203F3AE
-  battleTurnsCounterAddr = 0x3004FA3
-  currentSeedAddr = 0x3005000
-  saveBlock1PointerAddr = 0x3005008
-  saveBlock2PointerAddr = 0x300500C
-  currBoxIndexPointerAddr = 0x3005010
+  speciesDexIndexAddr = 0x2024464
+  wildTypeAddr = 0x2024AF9
+  saveBlock2Addr = 0x2024EA4
+  saveBlock1Addr = 0x2025734
+  eggLowPIDAddr = 0x20287E8
+  mapTypeAddr = 0x202E83F
+  currBoxIndexAddr = 0x20300A0
+  boxSelectedSlotIndexAddr = 0x20384E5
+  selectedItemAddr = 0x203855E
+  safariZoneStepsCounterAddr = 0x203880A
+  roamerMapGroupAndNumAddr = 0x2039302
+  timerAddr = 0x3001790
+  battleTurnsCounterAddr = 0x30042F3
+  partySlotsCounterAddr = 0x3004350
+  partyAddr = 0x3004360
+  enemyAddr = 0x30045C0
+  currentSeedAddr = 0x3004818
  elseif gameLanguageCode == 0x4A then
   gameLanguage = "JPN"
-  pokemonStatsScreen2Addr = 0x200324C
-  pokemonStatsScreenAddr = 0x2006410
-  pokemonBattleStatsScreenAddr = 0x2011970
-  speciesDexIndexAddr = 0x2023528
-  wildTypeAddr = 0x2023BBD
-  partySlotsCounterAddr = 0x2023F89
-  enemyAddr = 0x2023F8C
-  partyAddr = 0x20241E4
-  safariCatchFactorPointerAddr = 0x2024140
-  playerWalkRunStateAddr = 0x2036FAC
-  wildEncounterDataAddr = 0x203861C
-  boxSelectedSlotIndexAddr = 0x203976D
-  eggLowPIDPointerAddr = 0x20397E0
-  safariZoneStepsCounterAddr = 0x203990E
-  selectedItemAddr = 0x203ACA8
-  partySelectedSlotIndexAddr = 0x203B01D
-  roamerMapGroupAndNumAddr = 0x203F322
-  battleTurnsCounterAddr = 0x3004F43
-  currentSeedAddr = gameRev and 0x3004FA0 or 0x3005040
-  saveBlock1PointerAddr = gameRev and 0x3004FA8 or 0x3005048
-  saveBlock2PointerAddr = gameRev and 0x3004FAC or 0x300504C
-  currBoxIndexPointerAddr = gameRev and 0x3004FB0 or 0x3005050
+  speciesDexIndexAddr = 0x20241C4
+  wildTypeAddr = 0x2024859
+  saveBlock2Addr = 0x2024C04
+  saveBlock1Addr = 0x2025494
+  eggLowPIDAddr = 0x2028548
+  mapTypeAddr = 0x202E59F
+  currBoxIndexAddr = 0x202FDBC
+  boxSelectedSlotIndexAddr = 0x2038201
+  selectedItemAddr = 0x203825C
+  safariZoneStepsCounterAddr = 0x2038506
+  roamerMapGroupAndNumAddr = 0x2038FFA
+  timerAddr = 0x3001700
+  battleTurnsCounterAddr = 0x3004223
+  partySlotsCounterAddr = 0x3004280
+  partyAddr = 0x3004290
+  enemyAddr = 0x30044F0
+  currentSeedAddr = 0x3004748
  elseif gameLanguageCode == 0x44 or gameLanguageCode == 0x46 or gameLanguageCode == 0x49 or gameLanguageCode == 0x53 then
   gameLanguage = "EUR"
-  pokemonStatsScreen2Addr = 0x20032A0
-  pokemonStatsScreenAddr = 0x2006498
-  pokemonBattleStatsScreenAddr = 0x20119C4
-  speciesDexIndexAddr = 0x20235C8
-  wildTypeAddr = 0x2023C5D
-  partySlotsCounterAddr = 0x2024029
-  enemyAddr = 0x202402C
-  partyAddr = 0x2024284
-  safariCatchFactorPointerAddr = 0x202449C
-  playerWalkRunStateAddr = 0x2037078
-  wildEncounterDataAddr = 0x20386D0
-  boxSelectedSlotIndexAddr = 0x2039821
-  eggLowPIDPointerAddr = 0x2039894
-  safariZoneStepsCounterAddr = 0x2039996
-  selectedItemAddr = 0x203AD30
-  partySelectedSlotIndexAddr = 0x203B0A9
-  roamerMapGroupAndNumAddr = 0x203F3AE
-  battleTurnsCounterAddr = 0x3004EF3
-  currentSeedAddr = 0x3004F50
-  saveBlock1PointerAddr = 0x3004F58
-  saveBlock2PointerAddr = 0x3004F5C
-  currBoxIndexPointerAddr = 0x3004F60
+  speciesDexIndexAddr = 0x2024464
+  wildTypeAddr = 0x2024AF9
+  saveBlock2Addr = 0x2024EA4
+  saveBlock1Addr = 0x2025734
+  eggLowPIDAddr = 0x20287E8
+  mapTypeAddr = 0x202E83F
+  currBoxIndexAddr = 0x20300A0
+  boxSelectedSlotIndexAddr = 0x20384E5
+  selectedItemAddr = 0x203855E
+  safariZoneStepsCounterAddr = 0x203880A
+  roamerMapGroupAndNumAddr = 0x2039302
+  timerAddr = 0x3001790
+  battleTurnsCounterAddr = 0x3004303
+  partySlotsCounterAddr = 0x3004360
+  partyAddr = 0x3004370
+  enemyAddr = 0x30045D0
+  currentSeedAddr = 0x3004828
  end
 end
 
@@ -414,8 +388,8 @@ function printGameInfo()
 
  if gameVersion == "" then  -- Print game info
   GameInfo:print("Version: Unknown game")
- elseif gameVersion ~= "FireRed" and gameVersion ~= "LeafGreen" then
-  GameInfo:print(string.format("Version: %s - Wrong game version! Use FireRed/LeafGreen instead\n", gameVersion))
+ elseif gameVersion ~= "Ruby" and gameVersion ~= "Sapphire" then
+  GameInfo:print(string.format("Version: %s - Wrong game version! Use Ruby/Sapphire instead\n", gameVersion))
  elseif gameLanguage == "" then
   GameInfo:print("Version: "..gameVersion.."\n".."Language: Unknown language\n")
  else
@@ -459,105 +433,26 @@ function LCRNGDistance(state0, state1)
  return dist > 999 and dist - 0x100000000 or dist
 end
 
-local initialSeedAddr, tempInitialSeed, advances = 0x2020000, 0, 0
+local initialSeed, advances = 0, 0
 
 function getRngInfo()
- local initial = emu:read16(initialSeedAddr)
+ local timer = emu:read16(timerAddr)
  local current = emu:read32(currentSeedAddr)
 
- if initial == current or tempInitialSeed ~= initial then  -- Initial Seed generation check
-  tempInitialSeed = initial
-  tempCurrentSeed = initial
-  advances = 0
+ if (timer == 0 and current <= 0xFFFF) or current == timer then
+  initialSeed = current
+  tempCurrentSeed = current
  end
 
- advances = advances + LCRNGDistance(tempCurrentSeed, current)
+ advances = initialSeed == current and 0 or advances + LCRNGDistance(tempCurrentSeed, current)
 
- return initial, current, advances
+ return timer, current, advances
 end
 
 function showRngInfo(buffer)
- local initialSeed, currentSeed, currentAdvances = getRngInfo()
+ local paintingTimer, currentSeed, currentAdvances = getRngInfo()
  buffer:clear()
- buffer:print(string.format("Initial Seed: %04X\nCurrent Seed: %08X\nAdvances: %d\n\n\n", initialSeed, currentSeed, currentAdvances))
-end
-
-function getBikeMod(rate)
- local isPlayerOnBike = emu:read8(playerWalkRunStateAddr) & 6 ~= 0
-
- return isPlayerOnBike and (rate * 80) // 100 or rate
-end
-
-function getActivedFluteType()
- local fluteFlagsAddr = emu:read32(saveBlock1PointerAddr) + 0xFE0
- local fluteEffectActivedFlag = emu:read8(fluteFlagsAddr)
- local isWhiteFlute = fluteEffectActivedFlag >> 3 == 1
- local isBlackFlute = fluteEffectActivedFlag >> 4 == 1
-
- return isWhiteFlute and 1 or isBlackFlute and 2 or 0
-end
-
-function getFluteEffectMod(finalRate)
- local activedFluteType = getActivedFluteType()
- local isWhiteFluteActived = activedFluteType == 1
- local isBlackFluteActived = activedFluteType == 2
-
- return isWhiteFluteActived and finalRate + finalRate // 2 or isBlackFluteActived and finalRate // 2 or finalRate
-end
-
-function getCleanseTagEffectMod(finalRate)
- local partyLeadHeldItem = emu:read8(wildEncounterDataAddr + 0xA)
- local isPartyLeadHoldingCleanseTag = partyLeadHeldItem == 0xBE
-
- return isPartyLeadHoldingCleanseTag and (finalRate * 2) // 3 or finalRate
-end
-
-function getAbilityEffectMod(finalRate)
- local partyLeadAbilityEffectType = emu:read8(wildEncounterDataAddr + 0x9)
-
- return partyLeadAbilityEffectType == 1 and finalRate // 2 or partyLeadAbilityEffectType == 2 and finalRate * 2 or finalRate
-end
-
-function getEncounterCheckValue(seed)
- return (seed >> 16) % 0x640
-end
-
-function getEncounterMissingSteps(rate, rateBuff, rateBase)
- local wildEncounterSeed = emu:read32(wildEncounterDataAddr)
- local isEncounterStep = false
- local missingSteps = 0
- local finalRate = 0
-
- while not isEncounterStep do
-  wildEncounterSeed = LCRNG(wildEncounterSeed, 0x41C64E6D, 0x3039)
-  rateBuff = rateBuff + rateBase
-  finalRate = rate + (16 * rateBuff) // 200
-  finalRate = getFluteEffectMod(finalRate)
-  finalRate = getCleanseTagEffectMod(finalRate)
-  finalRate = getAbilityEffectMod(finalRate)
-
-  isEncounterStep = getEncounterCheckValue(wildEncounterSeed) < (finalRate > 1600 and 1600 or finalRate)
-  missingSteps = missingSteps + 1
- end
-
- return missingSteps
-end
-
-local encounterRateBase, encounterRateFlag = 0, false
-
-function showEncounterMissingSteps(buffer)
- local encounterRateBuff = emu:read16(wildEncounterDataAddr + 0x6)
-
- if encounterRateBuff == 0 then
-  encounterRateFlag = false
- elseif not encounterRateFlag then
-  encounterRateBase = encounterRateBuff
-  encounterRateFlag = true
- end
-
- local encounterRate = getBikeMod(16 * encounterRateBase)
- local encounterMissingSteps = encounterRateBuff == 0 and 0 or getEncounterMissingSteps(encounterRate, encounterRateBuff, encounterRateBase)
- buffer:print(string.format("Steps for wild encounter: %d\n\n\n", encounterMissingSteps))
+ buffer:print(string.format("Initial Seed: %04X\nPainting Timer: %04X\nCurrent Seed: %08X\nAdvances: %d\n\n\n", initialSeed, paintingTimer, currentSeed, currentAdvances))
 end
 
 function getPokemonIDs(addr)
@@ -569,7 +464,7 @@ function getPokemonIDs(addr)
 end
 
 function getTrainerIDs()
- local trainerIDsAddr = emu:read32(saveBlock2PointerAddr) + 0xA
+ local trainerIDsAddr = saveBlock2Addr + 0xA
  local TID = emu:read16(trainerIDsAddr)
  local SID = emu:read16(trainerIDsAddr + 0x2)
 
@@ -717,16 +612,15 @@ function showTrainerIDs(buffer)
 end
 
 function getDayCareInfo()
- local eggLowPIDAddr = emu:read32(eggLowPIDPointerAddr) + 0x2CE0
  local eggStepsCounter = 255 - emu:read8(eggLowPIDAddr - 0x4)
- local eggFlagAddr = emu:read32(saveBlock1PointerAddr) + 0xF2C
+ local eggFlagAddr = saveBlock1Addr + 0x1230
  local isEggReady = (emu:read8(eggFlagAddr) >> 6) & 0x1 == 1
 
- return isEggReady, eggStepsCounter, eggLowPIDAddr
+ return isEggReady, eggStepsCounter
 end
 
 function showDayCareInfo(buffer)
- local isEggReady, eggStepsCounter, eggLowPIDAddr = getDayCareInfo()
+ local isEggReady, eggStepsCounter = getDayCareInfo()
 
  if not isEggReady then
   buffer:print(string.format("Steps Counter: %d\nEgg is not ready\n", eggStepsCounter))
@@ -758,7 +652,7 @@ function showPartyEggInfo(buffer)
 end
 
 function getRoamerInfo()
- local roamerAddr = emu:read32(saveBlock1PointerAddr) + 0x30D0
+ local roamerAddr = saveBlock1Addr + 0x3144
  local roamerIVsValue = emu:read32(roamerAddr) & 0xFF  -- Raomes IVs bug (RS/FRLG only)
  local roamerPID = emu:read32(roamerAddr + 0x4)
  local roamerShinyType = shinyCheck(roamerPID)
@@ -773,7 +667,7 @@ function getRoamerInfo()
 
  local roamerMapGroupAndNum = emu:read16(roamerMapGroupAndNumAddr)
  local roamerMapIndex = roamerMapGroupAndNum >> 8
- local playerMapGroupAndNumAddr = emu:read32(saveBlock1PointerAddr) + 0x4
+ local playerMapGroupAndNumAddr = saveBlock1Addr + 0x4
  local playerMapGroupAndNum = emu:read16(playerMapGroupAndNumAddr)
 
  if roamerStatusIndex > 0 and roamerStatusIndex < 0x8 then  -- Sleep
@@ -816,20 +710,19 @@ function showRoamerInfo(buffer)
  end
 end
 
-local prevKeyInfo, infoIndex, infoMode = {}, 1, {
-      "Gift", "Party", "Party Stats", "Battle Party Stats", "Box", "1st Floor Box Stats", "2nd Floor Box Stats", "DayCare Box Stats"}
+local prevKeyInfo, infoIndex, infoMode = {}, 1, {"Gift", "Party", "Stats", "Box"}
 
 function getInfoInput(buffer)
  local key = emu:getKeys()
 
  if key == 0x120 and prevKeyInfo ~= key then
-  infoIndex = infoIndex - 1 < 1 and 8 or infoIndex - 1
+  infoIndex = infoIndex - 1 < 1 and 4 or infoIndex - 1
  elseif key == 0x110 and prevKeyInfo ~= key then
-  infoIndex = infoIndex + 1 > 8 and 1 or infoIndex + 1
+  infoIndex = infoIndex + 1 > 4 and 1 or infoIndex + 1
  end
 
  prevKeyInfo = key
- buffer:print(string.format("Mode: %s(Change mode pressing R+Right/R+Left)\n\n", strPadding(infoMode[infoIndex], 20)))
+ buffer:print(string.format("Mode: %s(Change mode pressing R+Right/R+Left)\n\n", strPadding(infoMode[infoIndex], 6)))
 end
 
 function showPokemonIDs(addr, buffer)
@@ -847,13 +740,13 @@ function showPokemonInfo(buffer)
   showInfo(lastPartySlotAddr, buffer)
   showPokemonIDs(lastPartySlotAddr, buffer)
  elseif infoMode[infoIndex] == "Party" then
-  local partySelectedSlotIndex = emu:read8(partySelectedSlotIndexAddr)
+  local partySlotsCounter = emu:read8(partySlotsCounterAddr) - 1
+  local partySelectedSlotIndex = emu:read8(0x20200BA + (partySlotsCounter * 0x88))
   local partySelectedPokemonAddr = partyAddr + (partySelectedSlotIndex * 0x64)
 
   showInfo(partySelectedPokemonAddr, buffer)
   showPokemonIDs(partySelectedPokemonAddr, buffer)
  elseif infoMode[infoIndex] == "Box" then
-  local currBoxIndexAddr = emu:read32(currBoxIndexPointerAddr)
   local currBoxIndex = emu:read8(currBoxIndexAddr)
   local boxAddr = currBoxIndexAddr + 0x4
   local boxSelectedSlotIndex = emu:read8(boxSelectedSlotIndexAddr)
@@ -861,23 +754,15 @@ function showPokemonInfo(buffer)
 
   showInfo(boxSelectedPokemonAddr, buffer)
   showPokemonIDs(boxSelectedPokemonAddr, buffer)
- elseif infoMode[infoIndex] == "Battle Party Stats" then
-  showInfo(pokemonBattleStatsScreenAddr, buffer)
-  showPokemonIDs(pokemonBattleStatsScreenAddr, buffer)
- elseif infoMode[infoIndex] == "1st Floor Box Stats" then
+ elseif infoMode[infoIndex] == "Stats" then
+  local pokemonStatsScreenAddr = 0x2018010
   showInfo(pokemonStatsScreenAddr, buffer)
   showPokemonIDs(pokemonStatsScreenAddr, buffer)
- elseif infoMode[infoIndex] == "Party Stats" or infoMode[infoIndex] == "2nd Floor Box Stats"
-        or infoMode[infoIndex] == "DayCare Box Stats"
- then
-  showInfo(pokemonStatsScreen2Addr, buffer)
-  showPokemonIDs(pokemonStatsScreen2Addr, buffer)
  end
 end
 
 function updateCaptureBuffer()
  showRngInfo(CaptureInfo)
- showEncounterMissingSteps(CaptureInfo)
  showInfo(enemyAddr, CaptureInfo)
  showTrainerIDs(CaptureInfo)
 end
@@ -897,89 +782,7 @@ end
 
 function updatePandoraBuffer()
  showRngInfo(PandoraInfo)
- PandoraInfo:print(string.format("Temporary TID: %d\n\n\n", emu:read16(initialSeedAddr)))
  showTrainerIDs(PandoraInfo)
-end
-
-function printTIDBotInstructions()
- TIDBotInfo:clear()
- TIDBotInfo:print("1) Edit the first line of this script\n")
- TIDBotInfo:print("2) Go to the name insertion screen\n")
- TIDBotInfo:print("3) Input the name you like\n")
- TIDBotInfo:print("4) Place the selection cursor on the OK button\n")
- TIDBotInfo:print("5) Press Shift + START\n\n\n")
-end
-
-local initialSeedWrittenFlag = false
-
-function initialSeedWritten()
- initialSeedWrittenFlag = true
-end
-
-local initialSeedAddrWatchpoint = emu:setWatchpoint(initialSeedWritten, initialSeedAddr, 1)
-
-function TIDFoundCheck(TID)
- for _, targetTID in ipairs(botTargetTIDs) do
-  if TID == targetTID then
-   return true
-  end
- end
-
- return false
-end
-
-local currentEmuFrame, insertionNameState
-local TIDBotStartedFlag, TIDFoundFlag = false, false
-
-function TIDBotLoop()
- if currentEmuFrame == emu:currentFrame() - 1 then  -- Save a temporary state and press A one frame after the starting one
-  insertionNameState = emu:saveStateBuffer()
-  emu:addKey(C.GBA_KEY.A)
- end
-
- if emu:getKey(C.GBA_KEY.A) == 1 and currentEmuFrame == emu:currentFrame() - 2 then  -- Clear the A button press one frame after the button press
-  emu:clearKey(C.GBA_KEY.A)
- end
-
- if initialSeedWrittenFlag then
-  local tempTID = emu:read16(initialSeedAddr)
-
-  if TIDFoundCheck(tempTID) then
-   TIDBotStartedFlag = false
-   TIDFoundFlag = true
-  else
-   initialSeedWrittenFlag = false
-   emu:loadStateBuffer(insertionNameState)
-   currentEmuFrame = emu:currentFrame()
-  end
-
-  TIDBotInfo:clear()
-  TIDBotInfo:print(string.format("TID: %d", tempTID))
- end
-end
-
-function updateTIDBotBuffer()
- if not TIDBotStartedFlag then
-  printTIDBotInstructions()
- end
-
- local key1 = string.format("%s", input:activeKeys()[1] == nil and 0 or input:activeKeys()[1])
- local key2 = string.format("%s", input:activeKeys()[2] == nil and 0 or input:activeKeys()[2])
-
- if key1..key2 == "838865810" and not TIDBotStartedFlag then  -- Check Shift + START press
-  TIDBotStartedFlag = true
-  TIDFoundFlag = false
-  initialSeedWrittenFlag = false
-  currentEmuFrame = emu:currentFrame()
- end
-
- if TIDBotStartedFlag then
-  TIDBotLoop()
- end
-
- if TIDFoundFlag then
-  TIDBotInfo:print(string.format("TID found!\nTID: %d", emu:read16(initialSeedAddr)))
- end
 end
 
 function updatePokemonInfoBuffer()
@@ -994,7 +797,7 @@ function createStateFile(statesFileName, stateSlot)
  if statesFile then  -- Check if the state file has been created correctly
   for slotNumber = 1, 9 do
    if slotNumber == stateSlot then  -- Write only in the line of the saved slot
-    statesFile:write(string.format("%08X %08X %d\n", tempInitialSeed, tempCurrentSeed, advances))
+    statesFile:write(string.format("%08X %08X %d\n", initialSeed, tempCurrentSeed, advances))
    else  -- Fill with empty data the lines of not saved state
     statesFile:write("00000000 00000000 0\n")
    end
@@ -1011,7 +814,7 @@ function writeStateFile(statesFileName, stateSlot)
 
  for line in statesFile:lines() do
   if line_num == stateSlot then  -- Overwrite only the line of the saved slot
-   line = string.format("%08X %08X %d", tempInitialSeed, tempCurrentSeed, advances)
+   line = string.format("%08X %08X %d", initialSeed, tempCurrentSeed, advances)
   end
 
   lines = lines..line.."\n"
@@ -1055,7 +858,7 @@ function setSaveStateValues(statesFileName, stateSlot)
   end
 
   statesFile:close()
-  tempInitialSeed = tonumber(values[1], 16)
+  initialSeed = tonumber(values[1], 16)
   tempCurrentSeed = tonumber(values[2], 16)
   advances = tonumber(values[3])
  end
@@ -1140,7 +943,6 @@ function updateBuffers()
   updateBreedingBuffer()
   updateRoamerBuffer()
   updatePandoraBuffer()
-  updateTIDBotBuffer()
   updatePokemonInfoBuffer()
   getSaveStateInput()
  end
