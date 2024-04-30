@@ -2,7 +2,7 @@
 Repository of essential Lua scripts for Pokémon RNG &amp; Botting from Generations 1 through 5 from several authors.
 Meant to compile all the required scripts across these generations, as well as custom edits and original ones into a single repo for PS! Wifi Labs users.
 Click each generation header for further descriptions and instructions on how to use each script.
-## [Gen 1](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%201)
+## [Gen 1](https://github.com/Wi-Fi-Labs/PokeRNG-LuaScripts/tree/main/GEN%201)
 ### RBG/Y
 * Gift Bot
 * Static Bot
@@ -13,7 +13,7 @@ Click each generation header for further descriptions and instructions on how to
 
 Source repo &amp; unified script by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%201). Original code &amp; scripts by [zep715](https://github.com/zep715/rbylua)
 
-## [Gen 2](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%202)
+## [Gen 2](https://github.com/Wi-Fi-Labs/PokeRNG-LuaScripts/tree/main/GEN%202)
 ### GS/C
 * Gift Bot
 * Static Bots (including Crystal Suicune)
@@ -30,7 +30,7 @@ Source repo &amp; unified script by [Real96](https://github.com/Real96/PokeLua/t
 
 Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/master)
 
-## [Gen 3](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%203)
+## [Gen 3](https://github.com/Wi-Fi-Labs/PokeRNG-LuaScripts/tree/main/GEN%203)
 ### RS/FRLG/E
 * RNG Info
 * Wild/Static/Gift Info
@@ -55,7 +55,7 @@ Source repo &amp; scripts by [wwwwwwzx](https://github.com/wwwwwwzx/gsclua/tree/
 
 Source repos [DevonStudios](https://github.com/DevonStudios/LuaScripts/tree/main/Gen%203) &amp; [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%203). Scripts by Real96
 
-## [Gen 4](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%204)
+## [Gen 4](https://github.com/Wi-Fi-Labs/PokeRNG-LuaScripts/tree/main/GEN%204)
 ### DP/Pt/HGSS
 * RNG Info
 * Wild/Static/Gift Info
@@ -70,7 +70,7 @@ Source repos [DevonStudios](https://github.com/DevonStudios/LuaScripts/tree/main
 
 Source repos &amp; scripts by [Real96](https://github.com/Real96/PokeLua/tree/main/Gen%204), [Unknown Warrior](https://github.com/Unknown-Warrior/LUA_Scripts) &amp; [Martmists-GH](https://github.com/Martmists-GH/PokemonOverlay)
 
-## [Gen 5](https://github.com/SexyMalasada/PokeRNG-LuaScripts/tree/main/GEN%205)
+## [Gen 5](https://github.com/Wi-Fi-Labs/PokeRNG-LuaScripts/tree/main/GEN%205)
 ### BW/B2W2
 * RNG Info
 * Wild/Static/Gift Info
