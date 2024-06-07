@@ -226,7 +226,7 @@ while warning == "" do
         if mode[index] == "10th Anniv/Aura Mew" then
             checkSums = getAllChecksums()
 
-            actualSeed = clalcXorSeed(checkSums)
+            actualSeed = calcXorSeed(checkSums)
             xorTargetSeed = bxor(bxor(actualSeed, firstSegmentSeed), targetSeed)
 
             gui.text(emuWindow.leftPadding + 1, emuWindow.topPadding + 144,
