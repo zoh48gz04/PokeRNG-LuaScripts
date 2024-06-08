@@ -1536,7 +1536,7 @@ while warning == "" do
   showDayCareInfo()
   showPartyEggInfo()
  elseif mode[index] == "Pandora" then
-  gui.text(emuWindow.leftPadding + 1, emuWindow.bottomPadding - 72, "Temp TID: "..initSeed)
+  gui.text(emuWindow.leftPadding + 1, emuWindow.bottomPadding - 90, "Temp TID: "..initSeed)
  elseif mode[index] == "TID Bot" then
   TIDBot()
  elseif mode[index] == "Pokemon Info" then

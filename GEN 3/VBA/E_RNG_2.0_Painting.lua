@@ -1513,7 +1513,7 @@ while warning == "" do
   showDayCareInfo()
   showPartyEggInfo()
  elseif mode[index] == "Pandora" then
-  gui.text(1, 116, "Temp TID: "..initSeed)
+  gui.text(1, 112, "Temp TID: "..initSeed)
  elseif mode[index] == "TID Bot" then
   TIDBot()
  elseif mode[index] == "Pokemon Info" then
