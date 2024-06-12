@@ -607,21 +607,21 @@ function getOffset(offsetType, orderIndex)
 end
 
 function getIVs(ivsValue)
- local hp = ivsValue & 0x1F
- local atk = (ivsValue & (0x1F * 0x20)) / 0x20
- local def = (ivsValue & (0x1F * 0x400)) / 0x400
- local spAtk = (ivsValue & (0x1F * 0x100000)) / 0x100000
- local spDef = (ivsValue & (0x1F * 0x2000000)) / 0x2000000
- local spd = (ivsValue & (0x1F * 0x8000)) / 0x8000
+ local hpIV = ivsValue & 0x1F
+ local atkIV = (ivsValue & (0x1F * 0x20)) / 0x20
+ local defIV = (ivsValue & (0x1F * 0x400)) / 0x400
+ local spAtkIV = (ivsValue & (0x1F * 0x100000)) / 0x100000
+ local spDefIV = (ivsValue & (0x1F * 0x2000000)) / 0x2000000
+ local spdIV = (ivsValue & (0x1F * 0x8000)) / 0x8000
 
- return hp, atk, def, spAtk, spDef, spd
+ return hpIV, atkIV, defIV, spAtkIV, spDefIV, spdIV
 end
 
-function getHPTypeAndPower(hp, atk, def, spAtk, spDef, spd)
- local hpType = (((hp % 2) + (2 * (atk % 2)) + (4 * (def % 2)) + (8 * (spd % 2)) + (16 * (spAtk % 2))
-                 + (32 * (spDef % 2))) * 15) // 63
- local hpPower = ((((hp & 2) / 2 + (atk & 2) + 2 * (def & 2) + 4 * (spd & 2) + 8 * (spAtk & 2)
-                  + 16 * (spDef & 2)) * 40) // 63) + 30
+function getHPTypeAndPower(hpIV, atkIV, defIV, spAtkIV, spDefIV, spdIV)
+ local hpType = (((hpIV & 1) + (2 * (atkIV & 1)) + (4 * (defIV & 1)) + (8 * (spdIV & 1)) + (16 * (spAtkIV & 1))
+                + (32 * (spDefIV & 1))) * 15) // 63
+ local hpPower = (((((hpIV >> 1) & 1) + (2 * ((atkIV >> 1) & 1)) + (4 * ((defIV >> 1) & 1)) + (8 * ((spdIV >> 1) & 1))
+                 + (16 * ((spAtkIV >> 1) & 1)) + (32 * ((spDefIV >> 1) & 1))) * 40) // 63) + 30
 
  return hpType, hpPower
 end
@@ -963,10 +963,7 @@ function updateTIDBotBuffer()
   printTIDBotInstructions()
  end
 
- local key1 = string.format("%s", input:activeKeys()[1] == nil and 0 or input:activeKeys()[1])
- local key2 = string.format("%s", input:activeKeys()[2] == nil and 0 or input:activeKeys()[2])
-
- if key1..key2 == "838865810" and not TIDBotStartedFlag then  -- Check Shift + START press
+ if input:isKeyActive(8388658) and input:isKeyActive(10) and not TIDBotStartedFlag then  -- Check if Shift + START is being pressed
   TIDBotStartedFlag = true
   TIDFoundFlag = false
   initialSeedWrittenFlag = false
@@ -1061,75 +1058,39 @@ function setSaveStateValues(statesFileName, stateSlot)
  end
 end
 
-local lastKey1, lastKey2 = nil, nil
-
 function getSaveStateInput()
- local key1 = string.format("%s", input:activeKeys()[1] == nil and 0 or input:activeKeys()[1])
- local key2 = string.format("%s", input:activeKeys()[2] == nil and 0 or input:activeKeys()[2])
+ local slotNumber = nil
 
- if key1 ~= "0" then
-  lastKey1 = key1
-  lastKey2 = key2
-  local slotNumber, savingState, loadingState = nil, false, false
+ if input:isKeyActive(49) or input:isKeyActive(33) then  -- Check if (n) is being pressed
+  slotNumber = 1
+ elseif input:isKeyActive(50) or input:isKeyActive(34) then
+  slotNumber = 2
+ elseif input:isKeyActive(51) or input:isKeyActive(163) then
+  slotNumber = 3
+ elseif input:isKeyActive(52) or input:isKeyActive(36) then
+  slotNumber = 4
+ elseif input:isKeyActive(53) or input:isKeyActive(37) then
+  slotNumber = 5
+ elseif input:isKeyActive(54) or input:isKeyActive(38) then
+  slotNumber = 6
+ elseif input:isKeyActive(55) or input:isKeyActive(47) then
+  slotNumber = 7
+ elseif input:isKeyActive(56) or input:isKeyActive(40) then
+  slotNumber = 8
+ elseif input:isKeyActive(57) or input:isKeyActive(41) then
+  slotNumber = 9
+ end
 
-  if key1..key2 == "338388658" then  -- check if Shift + (n) is being pressed
-   slotNumber = 1
-  elseif key1..key2 == "838865834" then
-   slotNumber = 2
-  elseif key1..key2 == "8388658163" then
-   slotNumber = 3
-  elseif key1..key2 == "838865836" then
-   slotNumber = 4
-  elseif key1..key2 == "838865837" then
-   slotNumber = 5
-  elseif key1..key2 == "838865838" then
-   slotNumber = 6
-  elseif key1..key2 == "838865847" then
-   slotNumber = 7
-  elseif key1..key2 == "408388658" then
-   slotNumber = 8
-  elseif key1..key2 == "418388658" then
-   slotNumber = 9
-  end
+ if slotNumber ~= nil then
+  local savingStateFlag = input:isKeyActive(8388658)  -- Check if Shift is being pressed
+  local statesFileName = string.format("states/%s_%s_states_values.txt", gameVersion, string.gsub(gameLanguage, "/", "_"))
 
-  if slotNumber ~= nil then
-   savingState = true
-  end
-
-  if key1..key2 == "490" then  -- check if (n) is being pressed
-   slotNumber = 1
-  elseif key1..key2 == "500" then
-   slotNumber = 2
-  elseif key1..key2 == "510" then
-   slotNumber = 3
-  elseif key1..key2 == "520" then
-   slotNumber = 4
-  elseif key1..key2 == "530" then
-   slotNumber = 5
-  elseif key1..key2 == "540" then
-   slotNumber = 6
-  elseif key1..key2 == "550" then
-   slotNumber = 7
-  elseif key1..key2 == "560" then
-   slotNumber = 8
-  elseif key1..key2 == "570" then
-   slotNumber = 9
-  end
-
-  if not savingState and slotNumber ~= nil then
-   loadingState = true
-  end
-
-  if slotNumber ~= nil then
-   local statesFileName = string.format("states/%s_%s_states_values.txt", gameVersion, string.gsub(gameLanguage, "/", "_"))
-
-   if savingState then  -- Check if a save state is being created
-    emu:saveStateSlot(slotNumber)
-    writeSaveStateValues(statesFileName, slotNumber)
-   else  -- Loading a state
-    emu:loadStateSlot(slotNumber)
-    setSaveStateValues(statesFileName, slotNumber)
-   end
+  if savingStateFlag then  -- Saving a state
+   emu:saveStateSlot(slotNumber)
+   writeSaveStateValues(statesFileName, slotNumber)
+  else  -- Loading a state
+   emu:loadStateSlot(slotNumber)
+   setSaveStateValues(statesFileName, slotNumber)
   end
  end
 end

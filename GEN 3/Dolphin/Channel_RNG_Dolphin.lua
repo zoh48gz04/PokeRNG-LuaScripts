@@ -24,36 +24,14 @@ local HPTypeNamesList = {
  "Fire", "Water", "Grass", "Electric",
  "Psychic", "Ice", "Dragon", "Dark"}
 
-local initialSeed, tempCurrentSeed, advances
-
-function setInitialSeed(seed)
- initialSeed = seed
- tempCurrentSeed = initialSeed
- advances = 0
-end
-
-local prevInitialSeed, initalSeedSetFlag
-
-function getInitialSeeding(seed)
- if initialSeed == 0 and prevInitialSeed ~= seed then
-  initalSeedSetFlag = initalSeedSetFlag + 1
-
-  if initalSeedSetFlag == 2 then
-    setInitialSeed(seed)
-  end
-
-  prevInitialSeed = seed
- end
-
- return prevInitialSeed
-end
-
 function LCRNG(s, mul, sum)
  local a = (mul >> 16) * (s % 0x10000) + (s >> 16) * (mul % 0x10000)
  local b = (mul % 0x10000) * (s % 0x10000) + (a % 0x10000) * 0x10000 + sum
 
  return b % 0x100000000
 end
+
+local tempCurrentSeed
  
 function LCRNGDistance(state0, state1)
  local mask = 1
@@ -81,74 +59,87 @@ function LCRNGDistance(state0, state1)
  return dist > 1000000 and dist - 0x100000000 or dist
 end
 
-function getIVs(iv1, iv2)
+function getIVs(seed)
  local ivs = {0, 0, 0, 0, 0, 0}
- ivs[1] = string.format("%02d", iv1 & 0x1F)
- ivs[2] = string.format("%02d", (iv1 >> 5) & 0x1F)
- ivs[3] = string.format("%02d", (iv1 >> 10) & 0x1F)
- ivs[4] = string.format("%02d", (iv2 >> 5) & 0x1F)
- ivs[5] = string.format("%02d", (iv2 >> 10) & 0x1F)
- ivs[6] = string.format("%02d", iv2 & 0x1F)
+ seed = LCRNG(seed, 0x45C82BE5, 0xD2F65B55)  -- 3 cycle
+
+ for i = 1, 6 do
+  seed = LCRNG(seed, 0x343FD, 0x269EC3)
+  ivs[i == 4 and 6 or i == 5 and 4 or i == 6 and 5 or i] = string.format("%02d", (seed >> 16) >> 11)
+ end
 
  return ivs
 end
 
-function getPID(seed)
- local trainerID = 31121
- local trainerSID = 0
+function shinyCheck(highPID, lowPID, trainerID, trainerSID)
+ local shinyTypeValue = trainerID ~ trainerSID ~ highPID ~ lowPID
 
- repeat  -- Shiny lock reroll
-  seed = LCRNG(seed, 0x343FD, 0x269EC3)
-  highPID = seed >> 16
-  seed = LCRNG(seed, 0x343FD, 0x269EC3)
-  lowPID = seed >> 16
- until (trainerID ~ trainerSID ~ highPID ~ lowPID) > 8
+ if shinyTypeValue < 8 then
+  return shinyTypeValue == 0 and " (Square Shiny)" or " (Star Shiny)"
+ end
 
- return (highPID << 16) + lowPID
+ return ""
 end
 
 function getHPTypeAndPower(hpIV, atkIV, defIV, spAtkIV, spDefIV, spdIV)
- local hpType = ((hpIV % 2) + 2 * (atkIV % 2) + 4 * (defIV % 2) + 8 * (spdIV % 2) + 16 * (spAtkIV % 2)
-                + 32 * (spDefIV % 2)) * 15 // 63
- local hpPower = 30 + (((hpIV >> 1) % 2) + 2 * ((atkIV >> 1) % 2) + 4 * ((defIV >> 1) % 2) + 8 * ((spdIV >> 1) % 2)
-                 + 16 * ((spAtkIV >> 1) % 2) + 32 * ((spDefIV >> 1) % 2)) * 40 // 63
+ local hpType = (((hpIV & 1) + (2 * (atkIV & 1)) + (4 * (defIV & 1)) + (8 * (spdIV & 1)) + (16 * (spAtkIV & 1))
+                + (32 * (spDefIV & 1))) * 15) // 63
+ local hpPower = (((((hpIV >> 1) & 1) + (2 * ((atkIV >> 1) & 1)) + (4 * ((defIV >> 1) & 1)) + (8 * ((spdIV >> 1) & 1))
+                 + (16 * ((spAtkIV >> 1) & 1)) + (32 * ((spDefIV >> 1) & 1))) * 40) // 63) + 30
 
  return string.format("HPower: %s %02d", HPTypeNamesList[hpType + 1], hpPower)
 end
 
-function getPikachuInfo(seed)
- seed = LCRNG(seed, 0xA9FC6809, 0x1E278E7A)  -- 2 cycles
+function getJirachiInfo(seed)
+ local OTID = 40122
  seed = LCRNG(seed, 0x343FD, 0x269EC3)
- local iv1 = seed >> 16
+ local OTSID = seed >> 16
  seed = LCRNG(seed, 0x343FD, 0x269EC3)
- local iv2 = seed >> 16
- local ivs = getIVs(iv1, iv2)
+ local pokemonHighPID = seed >> 16
  seed = LCRNG(seed, 0x343FD, 0x269EC3)
- local ability = (seed >> 16) & 1
- local pokemonPID = getPID(seed)
+ local pokemonLowPID = seed >> 16
+
+ if (pokemonLowPID < 8 and 1 or 0) ~= (pokemonHighPID ~ OTID ~ OTSID) then
+  pokemonHighPID = pokemonHighPID ~ 0x8000
+ end
+
+ local ivs = getIVs(seed)
+ local pokemonPID = (pokemonHighPID << 16) + pokemonLowPID
+ local shinyType = shinyCheck(pokemonHighPID, pokemonLowPID, OTID, OTSID)
  local natureIndex = pokemonPID % 25
- local info = string.format("PID: %08X\nNature: %s\nIVs: %s", pokemonPID, natureNamesList[natureIndex + 1], table.concat(ivs, "/"))
+ local info = string.format("PID: %08X %s\nNature: %s\nIVs: %s", pokemonPID, shinyType, natureNamesList[natureIndex + 1], table.concat(ivs, "/"))
  local hpTypeAndPower = getHPTypeAndPower(ivs[1], ivs[2], ivs[3], ivs[4], ivs[5], ivs[6])
  info = info.."\n"..hpTypeAndPower
 
  return info
 end
 
+local currentSeedAddr, initialSeed, advances
+
 function onScriptStart()
- initialSeed = 0
- prevInitialSeed = 0
- tempCurrentSeed = 0
- initalSeedSetFlag = 0
+ local gameLang = read8Bit(0x3)
+
+ if gameLang == 0x45 then  -- U
+  currentSeedAddr = 0x3502C8
+ elseif gameLang == 0x4A then  -- J
+  currentSeedAddr = read8Bit(0x0) == 0x47 and 0x387C18 or 0x387C38  -- Japan has two games editions
+ elseif gameLang == 0x50 then  -- E
+  currentSeedAddr = 0x33D888
+ else  -- A
+  currentSeedAddr = 0x337568
+ end
+
+ initialSeed = read32Bit(currentSeedAddr)
+ tempCurrentSeed = initialSeed
  advances = 0
 end
 
 function onScriptUpdate()
- local currentSeed = read32Bit(0x477098)
- getInitialSeeding(currentSeed)
+ local currentSeed = read32Bit(currentSeedAddr)
  advances = advances + LCRNGDistance(tempCurrentSeed, currentSeed)
- local pikachuInfo = getPikachuInfo(currentSeed)
- local text = string.format("Visual Advances: %d\n\nInitial Seed: %08X\nCurrent Seed: %08X\nAdvances: %d\n\nPikachu Info:\n%s",
-                            GetFrameCount(), initialSeed, currentSeed, advances, pikachuInfo)
+ local jirachiInfo = getJirachiInfo(currentSeed)
+ local text = string.format("Initial Seed: %08X\nCurrent Seed: %08X\nAdvances: %d\n\nJirachi Info:\n%s",
+                            initialSeed, currentSeed, advances, jirachiInfo)
  SetScreenText(text)
 end
 
