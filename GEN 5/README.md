@@ -11,13 +11,13 @@
 * Pokémon Info and Stats display for Speed-runners (commonly referred to as the 'Rainbow' lua)
 
 The main scripts for each game provided in the respective emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
-* Edited versions of these scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96. The original ones are still included in a folder named `Real96 OG`. 
+* Edited versions of these scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96 - **They require a 2x Window size to display properly!**. The original ones are still included in a folder named `Real96 OG Scripts`. 
 * These pictures show the differences in the layouts for [DeSmuMe](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%205/DeSmuMe/G5DesmumeLayout.png) &amp; [Bizhawk](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%205/BizHawk/G5BizhawkLayout.png)
 * An alternative (older) Pokémon Stats view script is also included (launched by opening the non-extension file). These scripts are for DeSmuMe only
 
 ## IMPORTANT!
-* DeSmuMe Dev+ version required (0.9.11 x32 recommended)
-* Bizhawk 2.9 or higher required (earlier versions not supported)
+* [DeSmuMe 0.9.11 x32 Dev+](https://www.zippyshare.day/DfhNlTZARmvOCaZ/file) version with `lua51.dll` required
+* [Bizhawk 2.9](https://github.com/TASEmulators/BizHawk/releases/tag/2.9.1) or higher required (earlier versions not supported)
 
 ## BWB2W2 LCRNG Advance Bot (Chatot Chicanery) Instructions
 This script consists of a simple Bot that auto-advances a predetermined number of LCRNG (also called PIDRNG) frames.

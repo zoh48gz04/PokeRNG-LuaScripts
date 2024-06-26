@@ -14,7 +14,7 @@
 * Roamer Tracker Viewer
 
 ## IMPORTANT!
-* VBA 23.6 RR version required (LRC4 works too)
+* [VBA 23.6 RR 480-LRC4](https://github.com/TASEmulators/vba-rerecording/releases/tag/480LRC4) version required
 * No Bizhawk versions are provided - these scripts are VBA only!
 
 These Bots simply hunt for any combo of DVs that makes the Pokémon shiny. They work by making a save state that they then restore to if no match is found; you'll see this happening in your emulator's screen. Once a match is found the emulator is paused.
