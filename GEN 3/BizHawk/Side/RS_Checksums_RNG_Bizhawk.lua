@@ -118,13 +118,13 @@ function getInput()
         index = index - 1
 
         if index < 1 then
-            index = 6
+            index = table.getn(mode)
         end
     elseif (key["Number2"] or key["Keypad2"]) and (not prevKey["Number2"] and not prevKey["Keypad2"]) then
         rightArrowColor = "orange"
         index = index + 1
 
-        if index > 6 then
+        if index > table.getn(mode) then
             index = 1
         end
     end

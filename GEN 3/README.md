@@ -12,13 +12,13 @@
 * Other Misc RSE (Pokérus RNG / Lottery RNG / Mirage Island RNG / Feebas Tile Checker)
 
 The main scripts for each game provided in the respective emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
-* Edited versions of the BizHawk scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96 - **They require a 3x Window size to display properly!**. The original ones are still included in a folder named `Real96 OG Scripts`. 
+* Edited versions of the BizHawk scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96 - **They require a 3x Window size to display properly!** The original ones are still included in a folder named `Real96 OG Scripts`. 
 * These pictures show the differences in the layout for [Bizhawk](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%203/BizHawk/G3BizhawkLayout.png)
 * Several Misc RSE RNG scripts are also included in the folder 'Side'. These are VBA only
 
 ## IMPORTANT!
 * [VBA 23.6 RR 480-LRC4](https://github.com/TASEmulators/vba-rerecording/releases/tag/480LRC4) version required for VBA scripts
-* [Bizhawk 2.8 rc-1](https://github.com/TASEmulators/BizHawk/releases/tag/2.8-rc1) required - _scripts in the `Older Scripts` folder require stable [Bizhawk 2.8](https://github.com/TASEmulators/BizHawk/releases/tag/2.8) instead__ for BizHawk scripts
+* [Bizhawk 2.8 rc-1](https://github.com/TASEmulators/BizHawk/releases/tag/2.8-rc1) required - _scripts in the `Older Scripts` folder require stable [Bizhawk 2.8](https://github.com/TASEmulators/BizHawk/releases/tag/2.8) instead_ for BizHawk scripts
 * [mGBA 0.10.3](https://mgba.io/downloads.html) is required for mGBA scripts
 * [Dolphin Lua-core](https://github.com/Real96/Dolphin-Lua-Core) is required for GCN scripts
 
