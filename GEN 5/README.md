@@ -16,7 +16,7 @@ The main scripts for each game provided in the respective emulator folders have 
 * An alternative (older) Pokémon Stats view script is also included (launched by opening the non-extension file). These scripts are for DeSmuMe only
 
 ## IMPORTANT!
-* [DeSmuMe 0.9.11 x32 Dev+](https://www.zippyshare.day/DfhNlTZARmvOCaZ/file) version with `lua51.dll` required
+* [DeSmuMe 0.9.11 x32 Dev+](https://www.mediafire.com/file/8r0rwano0ioi3nl/desmume-0.9.11-win32-dev.zip/file) version with `lua51.dll` required
 * [Bizhawk 2.9](https://github.com/TASEmulators/BizHawk/releases/tag/2.9.1) or higher required (earlier versions not supported)
 
 ## BWB2W2 LCRNG Advance Bot (Chatot Chicanery) Instructions
